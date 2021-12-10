@@ -1,0 +1,674 @@
+https://github.com/ultralytics/yolov5/releases
+https://github.com/ultralytics/yolov5/wiki/Tips-for-Best-Training-Results
+
+Commands to Run:
+
+python train.py --img 624 --batch 15 --epochs 25 --data C:\Users\gavin\Desktop\School\Current-Courses\CS-5600\Homework\CS5600_6600_F21_Project02\yolov5\data\pokemon.yaml --weights C:\Users\gavin\Desktop\School\Current-Courses\CS-5600\Homework\CS5600_6600_F21_Project02\yolov5\yolov5s.pt --name pikachu_results --cache
+
+python detect.py --img 624 --source C:\Users\gavin\Desktop\School\Current-Courses\CS-5600\Homework\CS5600_6600_F21_Project02\yolov5\datasets\pokemon\images\test\ --weights C:\Users\gavin\Desktop\School\Current-Courses\CS-5600\Homework\CS5600_6600_F21_Project02\yolov5\runs\train\pikachu_results\weights\best.pt --conf-thres 0.4
+
+Pokemon List:
+0 - Pikachu
+1 - Bulbasaur
+2 - Charmander
+3 - Squirtle
+
+Image Sizes:
+- Default       = 416
+- (416/8) + 416 = 468
+- (416/4) + 416 = 520
+- (416/2) + 416 = 624
+
+Datasets:
+- Pikachu-Dataset:
+	- Training Images: 105
+	- Valid Images: 30
+	- Test Images: 16
+	- Description:  For this dataset I decided to set the bounding boxes to cover the entirety of Pikachu.  This includes getting both ears and his tail or in other words getting strange bounding boxes for the entirety of Pikachu.  Pikachu's tail is actually really spread out so trying to put a bounding box around it results in getting lots of extra background nonsense.  Overall this dataset had the glaring issue of ________.
+
+- Bulbasaur-Dataset:
+	- Training Images: 105
+	- Valid Images: 30
+	- Test Images: 22
+	- Best Runs: #4, #6
+	- Description:  For this dataset I decided to do the entire body.  Unlike Pikachu, Bulbasaur is actually really easy to put a bounding box around.  Bulbasaur doesn't have any crazy ears or tails that make the box weird.  He is acutally very compact and so it made it easy to capture.  Overall this dataset had the issue of ______.
+
+- Charmander-Dataset-1:
+	- Training Images: 105
+	- Valid Images: 30
+	- Test Images: 23 
+	- Best Runs: None! They all sucked
+	- Description: For this dataset I decided to do the entire body including the flame on the tail.  Looking back this was a bad idea.  Each of the charmander's in both the train dataset and valid dataset have the flames having different shapes and colors.  It made it very inconsistent for defining what a Charmander is.  Additionally there were several images that had really multicolored and bright backgrounds.  I believe that this actually did more harm than good.
+
+- Charmander-Dataset-2:
+	- Training Images: 115
+	- Valid Images: 18
+	- Test Images: 23
+	- Best Runs: #4, #6
+	- Description: For my second dataset I decided to remove most of the brightly colored background images.  I also decided to put the bounding box only around his body and not worry about the flame.  Lastly, I took several of the images that I already had and I flipped them to get more angles.  The combination of these three things really helped out and made for a much more accurate network.  However, it still has it's problems.  It identifies charmander almost everytime but it also misidentifies other pokemon quite often.  But since I can't spare any more time this is what I am going to have to run with.
+	
+- Squirtle-Dataset-1:
+	- Training Images: 105
+	- Valid Images: 30
+	- Test Images: 
+	- Similar Images Numbers: 
+	- Description:
+
+Notes:  When training the output doesn't show the best trained network at the end... however it puts the best trained weights in a saved file.  I am using the best.pt weights for my test data but I am saving out the last accuracy that the network reports.  The last is rarely the best but it is usually similar.
+
+Pikachu Runs:
+
+Run #1:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: pikachu-dataset-1
+	- Saved: pikachu_results/exp
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     1.73G   0.01635  0.009548         0        18       416: 100%|██████████| 7/7 [00:04<00:00,  1.68it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<0
+                 all         30         30          1      0.967      0.966       0.78
+
+Run #2:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: pikachu-dataset-1
+	- Saved: pikachu_results2/exp2
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+    93/199     3.03G   0.02692   0.01118         0        25       416: 100%|██████████| 7/7 [00:10<00:00,  1.56s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<0
+                 all         30         30      0.968          1       0.99      0.835	
+
+Run #3:
+	- Image Size: 468
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: pikachu-dataset-1
+	- Saved: pikachu_results3/exp3
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.33G   0.01739   0.00924         0        18       480: 100%|██████████| 7/7 [00:05<00:00,  1.32it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<0
+                 all         30         30          1          1      0.995      0.788
+	
+Run #4:
+	- Image Size: 468
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: pikachu-dataset-1
+	- Saved: pikachu_results4/exp4
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+    73/199     3.01G   0.02502   0.01259         0        22       480: 100%|██████████| 8/8 [00:14<00:00,  1.83s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<0
+                 all         30         30      0.909          1      0.984      0.815
+	
+Run #5:
+	- Image Size: 520
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: pikachu-dataset-1	
+	- Saved: pikachu_results5/exp5
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.44G   0.01216   0.00817         0        21       544: 100%|██████████| 8/8 [00:06<00:00,  1.16it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<0
+                 all         30         30      0.968          1      0.992      0.824
+
+Run #6:
+	- Image Size: 520
+	- Batch Size: 11 
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: pikachu-dataset-1	
+	- Saved: pikachu_results6/exp6
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.93G   0.01217  0.008338         0        12       544: 100%|██████████| 10/10 [00:20<00:00,  2.04s/i
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<0
+                 all         30         30          1          1      0.995      0.852
+
+Run #7:
+	- Image Size: 624
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: pikachu-dataset-1	
+	- Saved: pikachu_results7/exp7
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.81G   0.01025  0.008242         0        21       640: 100%|██████████| 8/8 [00:09<00:00,  1.15s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<0
+                 all         30         30          1      0.933      0.987      0.782
+	
+Run #8:
+	- Image Size: 624
+	- Batch Size: 8
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: pikachu-dataset-1	
+	- Saved: pikachu_results8/exp8
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.99G  0.007856  0.006778         0        16       640: 100%|██████████| 13/13 [00:22<00:00,  1.77s/i
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:02<0
+                 all         30         30      0.968          1      0.992      0.833
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Bulbasaur Runs:
+
+Run #1:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results/exp
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     1.72G   0.01652   0.01011 0.0004643        27       416: 100%|██████████| 7/7 [00:04<00:00,  1.62it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<0
+				 all         30         32          1          1      0.995      0.952
+Run #2:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results2/exp2
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     3.03G   0.01385  0.008111 0.0004433        28       416: 100%|██████████| 7/7 [00:10<00:00,  1.56s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<0
+                 all         30         32       0.97          1      0.994      0.966
+	
+Run #3:
+	- Image Size: 468
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results3/exp3
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.32G   0.01591  0.009959 0.0004652        27       480: 100%|██████████| 7/7 [00:05<00:00,  1.32it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<0
+				 all         30         32          1          1      0.995      0.955
+Run #4:
+	- Image Size: 468
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results4/exp4
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.95G   0.01428  0.007806 0.0004596        17       480: 100%|██████████| 8/8 [00:14<00:00,  1.80s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<0
+         bulbasaur         30         32          1          1      0.995      0.974
+	
+Run #5:
+	- Image Size: 520
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results5/exp5
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.35G   0.01291  0.008432 0.0003785        16       544: 100%|██████████| 8/8 [00:06<00:00,  1.15it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<0
+           bulbasaur         30         32       0.97          1      0.994      0.927
+	
+Run #6:
+	- Image Size: 520
+	- Batch Size: 10
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results6/exp6
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.99G   0.01062  0.006371 0.0003092        15       544: 100%|██████████| 11/11 [00:18<00:00,  1.66s/i
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<0
+	            all         30         32          1          1      0.995      0.963
+	
+Run #7:
+	- Image Size: 624
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results7/exp7
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.82G   0.01191  0.008124 0.0003305        16       640: 100%|██████████| 8/8 [00:09<00:00,  1.20s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<00:00,  2.83it/s]
+                 all         30         32       0.97          1      0.994      0.924
+	
+Run #8:
+	- Image Size: 624
+	- Batch Size: 8
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: bulbasaur-dataset-1
+	- Saved: bulbasaur_results8/exp8
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     3.01G  0.005739  0.005658 0.0001999         2       640: 100%|██████████| 14/14 [00:23<00:00,  1.66s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<00:00,  1.13it/s]
+                 all         30         32          1          1      0.995      0.977
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Charmander Runs:
+
+Run #1:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results/exp
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     1.74G   0.01819  0.009781 0.0005618        23       416: 100%|██████████| 7/7 [00:04<00:00,  1.66it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  2.84it/s]
+                 all         30         30      0.968          1      0.991      0.801
+
+Run #2:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results2/exp2
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   197/199     3.03G   0.01356   0.00837 0.0006444        28       416: 100%|██████████| 7/7 [00:10<00:00,  1.54s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  1.14it/s]
+                 all         30         30      0.968          1      0.994      0.805
+
+	
+Run #3:
+	- Image Size: 468
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results3/exp3
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.33G   0.02037  0.009958 0.0005862        23       480: 100%|██████████| 7/7 [00:05<00:00,  1.34it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  2.31it/s]
+				 all         30         30      0.937          1      0.991      0.819
+	
+Run #4:
+	- Image Size: 468
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results4/exp4
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.98G   0.01782  0.008625 0.0006943        20       480: 100%|██████████| 8/8 [00:14<00:00,  1.79s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<00:00,  1.82it/s]
+				all         30         30      0.968          1      0.992      0.793
+	
+Run #5:
+	- Image Size: 520
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results5/exp5
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.36G   0.01597  0.008681 0.0004372        20       544: 100%|██████████| 8/8 [00:06<00:00,  1.14it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<00:00,  3.30it/s]
+			   all         30         30      0.968          1      0.984      0.827
+	
+Run #6:
+	- Image Size: 520
+	- Batch Size: 10
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results6/exp6
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.98G  0.008961   0.00676 0.0003194        12       544: 100%|██████████| 11/11 [00:18<00:00,  1.67s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<00:00,  1.34it/s]
+	            all         30         30          1          1      0.995      0.831
+	
+Run #7:
+	- Image Size: 624
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results7/exp7
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.82G   0.01974  0.009224  0.000426        20       640: 100%|██████████| 8/8 [00:09<00:00,  1.17s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<00:00,  2.84it/s]
+			   all         30         30      0.967      0.967      0.984      0.856
+	
+Run #8:
+	- Image Size: 624
+	- Batch Size: 8
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmander_results8/exp8
+	- Results:
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Charmander Dataset-2 Runs:
+
+Run #1:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results/exp
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     1.69G   0.01602   0.01074 0.0005464         9       416: 100%|██████████| 8/8 [00:04<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18          1          1      0.995      0.901
+
+
+Run #2:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results2/exp2
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.88G   0.01449    0.0091 0.0005967         9       416: 100%|██████████| 8/8 [00:11<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18          1          1      0.995      0.934
+	
+Run #3:
+	- Image Size: 468
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results3/exp3
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.16G   0.01324   0.01007 0.0004737         9       480: 100%|██████████| 8/8 [00:05<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18      0.993          1      0.995        0.9
+
+	
+Run #4:
+	- Image Size: 468
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results4/exp4
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     3.02G   0.01439  0.009622 0.0005433         9       480: 100%|██████████| 9/9 [00:15<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18      0.947          1      0.987      0.897
+
+	
+Run #5:
+	- Image Size: 520
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results5/exp5
+	- Results: 
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.29G   0.01743  0.009797 0.0004971         8       544: 100%|██████████| 9/9 [00:07<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18      0.999          1      0.995      0.917
+
+
+Run #6:
+	- Image Size: 520
+	- Batch Size: 10
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results6/exp6
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.98G   0.01472  0.007748 0.0005249         9       544: 100%|██████████| 12/12 [00:19<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18      0.947          1      0.992      0.924
+
+Run #7:
+	- Image Size: 624
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results7/exp7
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.88G   0.01224  0.009952 0.0003672        19       640: 100%|██████████| 10/10 [00:10<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1
+                 all         18         18          1      0.999      0.995      0.916
+
+	
+Run #8:
+	- Image Size: 624
+	- Batch Size: 8
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: charmander-dataset-1
+	- Saved: charmanderd2_results8/exp8
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     3.01G  0.008929  0.008302 0.0003248         9       640: 100%|██████████| 15/15 [00:25<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2
+                 all         18         18      0.947          1      0.992      0.902
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Squirtle Runs:
+
+Run #1:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results/exp
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     1.74G   0.01975  0.008697  0.000626        23       416: 100%|██████████| 7/7 [00:04<00:00,  1.63it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  2.51it/s]
+                 all         30         30      0.966      0.933      0.939      0.795
+
+
+Run #2:
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results2/exp2
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   198/199     3.03G   0.01601   0.00781 0.0007469        23       416: 100%|██████████| 7/7 [00:16<00:00,  2.39s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  1.02it/s]
+                 all         30         30      0.966      0.933      0.925      0.832
+
+	
+Run #3:
+	- Image Size: 468
+	- Batch Size: 16
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results3/exp3
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.29G   0.01667  0.008267 0.0007025        23       480: 100%|██████████| 7/7 [00:05<00:00,  1.32it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  2.31it/s]
+                 all         30         30      0.903      0.933      0.938      0.802
+
+	
+Run #4:
+	- Image Size: 468
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results4/exp4
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.96G   0.01662  0.007027 0.0006989        19       480: 100%|██████████| 8/8 [00:14<00:00,  1.84s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<00:00,  1.78it/s]
+                 all         30         30      0.965      0.933       0.94      0.875
+	
+Run #5:
+	- Image Size: 520
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results5/exp5
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.36G   0.01284  0.007849 0.0005009        17       544: 100%|██████████| 8/8 [00:07<00:00,  1.14it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<00:00,  3.31it/s]
+                 all         30         30      0.965      0.933      0.929      0.847
+	
+Run #6:
+	- Image Size: 520
+	- Batch Size: 11
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results6/exp6
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.98G   0.01044  0.006363  0.000421        16       544: 100%|██████████| 11/11 [00:18<00:00,  1.67s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:01<00:00,  1.31it/s]
+                 all         30         30      0.964        0.9      0.934      0.863
+	
+Run #7:
+	- Image Size: 624
+	- Batch Size: 14
+	- Epochs: 200
+	- Yolo Structure: yolov5s.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results7/exp7
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     2.85G   0.01223  0.007638 0.0004297        17       640: 100%|██████████| 8/8 [00:09<00:00,  1.19s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:00<00:00,  2.80it/s]
+                 all         30         30      0.966      0.933      0.918      0.797
+	
+Run #8:
+	- Image Size: 624
+	- Batch Size: 8
+	- Epochs: 200
+	- Yolo Structure: yolov5m.pt
+	- Dataset: squirtle-dataset-1
+	- Saved: squirtle_results8/exp8
+	- Results:
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   199/199     3.04G   0.01036  0.006529 0.0003802         3       640: 100%|██████████| 14/14 [00:23<00:00,  1.69s/it]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 2/2 [00:02<00:00,  1.02s/it]
+                 all         30         30      0.903      0.933      0.905      0.823
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+All Pokemon Runs:
+
+Run #1
+	- Image Size: 416
+	- Batch Size: 16
+	- Epochs: 300
+	- Yolo Structure: yolov5m.pt
+	- Dataset: all-pokemon-dataset
+	- Saved: all-pokemon_results/exp
+	- Results: 
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   270/299     2.97G    0.0121   0.00796  0.001197        35       416: 100%|██████████| 27/27 [00:43<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 4/4 [
+               ``all        108        110      0.954      0.958      0.975      0.899
+             pikachu        108         30          1      0.933      0.992      0.865
+           bulbasaur        108         32          1       0.99      0.995       0.94
+          charmander        108         18       0.85          1      0.984       0.95
+            squirtle        108         30      0.965       0.91      0.929       0.84
+
+
+Run #2
+	- Image Size: 468
+	- Batch Size: 14
+	- Epochs: 300
+	- Yolo Structure: yolov5m.pt
+	- Dataset: all-pokemon-dataset
+	- Saved: all-pokemon_results2/exp2
+	- Results: 
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   299/299     2.92G  0.009733  0.008179 0.0008454        18       480: 100%|██████████| 31/31 [00:58<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 4/4 [
+                 all        108        110      0.952      0.952      0.976      0.891
+             pikachu        108         30          1      0.925      0.995      0.871
+           bulbasaur        108         32      0.986      0.969      0.994      0.948
+          charmander        108         18      0.857          1      0.982      0.934
+            squirtle        108         30      0.965      0.915      0.935      0.812
+
+Run #3
+	- Image Size: 512
+	- Batch Size: 10
+	- Epochs: 300
+	- Yolo Structure: yolov5m.pt
+	- Dataset: all-pokemon-dataset
+	- Saved: all-pokemon_results3/exp3
+	- Results: 
+	Epoch Terminal results got corrupted but I still got the most accurate run: 0.89369
+
+Run #4
+	- Image Size: 624
+	- Batch Size: 8
+	- Epochs: 300
+	- Yolo Structure: yolov5m.pt
+	- Dataset: all-pokemon-dataset
+	- Saved: all-pokemon_results4/exp4
+	- Results: 
+     Epoch   gpu_mem       box       obj       cls    labels  img_size
+   276/299     2.98G   0.00768  0.007414  0.001032        16       640: 100%|██████████| 54/54 [01:34<00:00,
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 7/7 [
+                 all        108        110      0.954      0.976      0.971      0.878
+             pikachu        108         30          1      0.971      0.995      0.854
+           bulbasaur        108         32      0.989          1      0.995      0.954
+          charmander        108         18        0.9          1      0.981      0.865
+            squirtle        108         30      0.929      0.933      0.912       0.84
