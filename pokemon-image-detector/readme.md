@@ -40,7 +40,7 @@ Additional Places to sources:
 - Final-Report: final-report.pdf
 - RAW Result/Dataset Documentation: myresults.txt
 - My saved Dataset: my_detect_results
-- Github Repository: https://github.com/gavinfrancis-usu/CS-5600-Final which contains...
+- Github Repository: https://github.com/gavinfrancis-usu/Pokemon-AI-Detector which contains...
 	- Contains all pokemon datasets, 
 	- Contains all detection results, 
 	- Contains all test results, 

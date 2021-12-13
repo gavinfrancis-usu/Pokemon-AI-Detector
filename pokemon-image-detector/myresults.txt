@@ -31,8 +31,8 @@ Datasets:
 	- Valid Images: 30
 	- Test Images: 22
 	- Best Runs: #4, #6
-	- Description:  For this dataset I decided to do the entire body.  Unlike Pikachu, Bulbasaur is actually really easy to put a bounding box around.  Bulbasaur doesn't have any crazy ears or tails that make the box weird.  He is acutally very compact and so it made it easy to capture.  Overall this dataset had the issue of ______.
-
+	- Description:  For this dataset I decided to do the entire body.  Unlike Pikachu, Bulbasaur is actually really easy to put a bounding box around.  Bulbasaur doesn't have any crazy ears or tails that make the box weird.  He is acutally very compact and so it made it easy to capture.
+	
 - Charmander-Dataset-1:
 	- Training Images: 105
 	- Valid Images: 30
@@ -52,7 +52,7 @@ Datasets:
 	- Valid Images: 30
 	- Test Images: 
 	- Similar Images Numbers: 
-	- Description:
+	- Description: Squirtle was like Bulbasaur and was very easy to put bounding boxes around.  The dataset was very simple and had much more variety to pick from besides pikachu.
 
 Notes:  When training the output doesn't show the best trained network at the end... however it puts the best trained weights in a saved file.  I am using the best.pt weights for my test data but I am saving out the last accuracy that the network reports.  The last is rarely the best but it is usually similar.
 
